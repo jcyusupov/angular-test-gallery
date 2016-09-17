@@ -1,0 +1,38 @@
+<div ng-cloak >
+  <md-content class="md-padding" layout-xs="row" layout="row">
+    <div flex-xs flex-gt-xs="30" layout="column">
+      <md-card>
+        <md-card-title>
+          <img ng-src="{{ $ctrl.item.url }}" class="md-card-image" alt=""/>
+        </md-card-title>
+      </md-card>
+    </div>
+    <div flex-xs flex-gt-xs="70" layout="column">
+      <md-card>
+        <md-card-title layout="column">
+          <md-input-container class="md-block" flex-gt-xs="100">
+            <label>Name</label>
+            <input ng-model="$ctrl.item.name">
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-xs="100">
+            <label>Author</label>
+            <input ng-model="$ctrl.item.author">
+          </md-input-container>
+          <div flex-gt-xs="100">
+            <md-checkbox ng-model="$ctrl.item.isVisible" aria-label="Visible">
+              Visible
+            </md-checkbox>
+          </div>
+          <div flex-gt-xs="100">
+            <fa name="thumbs-o-up"></fa> {{$ctrl.item.likes | number }}
+          </div>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised md-primary" ng-click="$ctrl.save()">Save</md-button>
+          <md-button class="md-raised md-warn" ng-click="$ctrl.delete()">Delete</md-button>
+          <md-button class="md-raised" ui-sref="photos" style="margin-left: 8px;">Cancel</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </md-content>
+</div>
