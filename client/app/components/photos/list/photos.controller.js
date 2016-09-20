@@ -1,44 +1,21 @@
 import _ from 'lodash';
 
 class PhotosController {
-  constructor($scope, gallery) {
+  constructor(gallery) {
     'ngInject';
 
-    this.$scope = $scope;
     this.items = gallery.items;
-
-    this.query = {
-      order: 'id',
-      limit: 10,
-      page: 1
-    };
-
+    this.filteredItems = gallery.items;
     this.filter = {
       name: '',
       author: ''
     };
-
-    $scope.$watch(() => this.filter.name, this.resetQuery);
-    $scope.$watch(() => this.filter.author, this.resetQuery);
   }
 
-  resetQuery = () => {
-    this.query = {
-      ...this.query,
-      page: 1
-    };
-  };
-
-  changeOrder = () => {
-    let ascending = 'asc';
-    let field = this.query.order;
-
-    if (_.startsWith(this.query.order, '-')) {
-      ascending = 'desc';
-      field = this.query.order.slice(1);
-    }
-
-    this.items = _.orderBy(this.items, field, ascending);
+  changeFilter() {
+    this.filteredItems = _.filter(this.items, (i) =>
+      _.includes(i.name.toLowerCase(), this.filter.name.toLowerCase()) &&
+      _.includes(i.author.toLowerCase(), this.filter.author.toLowerCase()));
   };
 }
 

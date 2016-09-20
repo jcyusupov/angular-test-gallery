@@ -2,53 +2,38 @@
   <md-card style="margin: 0px" layout="row">
     <md-input-container style="margin:15px;" flex-gt-xs="50">
       <label>Search By Name</label>
-      <input type="text" ng-model="$ctrl.filter.name">
+      <input type="text" ng-model="$ctrl.filter.name" ng-model-options="{ debounce: 400 }" ng-change="$ctrl.changeFilter()">
     </md-input-container>
     <md-input-container style="margin:15px;" flex-gt-xs="50">
       <label>Search By Author</label>
-      <input type="text" ng-model="$ctrl.filter.author">
+      <input type="text" ng-model="$ctrl.filter.author" ng-model-options="{ debounce: 400 }" ng-change="$ctrl.changeFilter()">
     </md-input-container>
   </md-card>
   <md-card style="margin-top:20px">
     <md-subheader>Items</md-subheader>
-    <md-table-container>
-      <table md-table>
-        <thead md-head md-order="$ctrl.query.order" md-on-reorder="$ctrl.changeOrder">
-          <tr md-row>
-            <th md-column md-order-by="id">ID</th>
-            <th md-column md-order-by="name">Name</th>
-            <th md-column md-order-by="author">Author</th>
-            <th md-column md-order-by="likes">Likes Count</th>
-            <th md-column md-order-by="isVisible">Visible</th>
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Author</th>
+            <th>Likes Count</th>
+            <th>Visible</th>
           </tr>
         </thead>
         <tbody md-body>
-          <tr
-            class="tr-item"
-            md-row
-            ui-sref="photo({ id: item.id })"
-            ng-repeat="item in $ctrl.items
-            | filter: $ctrl.filter
-            | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit"
-          >
-            <td md-cell>{{item.id}}</td>
-            <td md-cell>{{item.name}}</td>
-            <td md-cell>{{item.author}}</td>
-            <td md-cell><fa name="thumbs-o-up"></fa> {{item.likes}}</td>
-            <td md-cell>
-              <fa name="{{ item.isVisible ? 'check' : 'close'}}"></fa>
+          <tr md-row ui-sref="photo({ id: item.id })" ng-repeat="item in $ctrl.filteredItems">
+            <td>{{::item.id}}</td>
+            <td>{{::item.name}}</td>
+            <td>{{::item.author}}</td>
+            <td><fa name="thumbs-o-up"></fa> {{::item.likes}}</td>
+            <td>
+              <fa name="{{::item.isVisible ? 'check' : 'close'}}"></fa>
             </td>
           </tr>
         </tbody>
       </table>
-    </md-table-container>
-    <md-table-pagination
-      md-limit="$ctrl.query.limit"
-      md-limit-options="[10, 20, 50]"
-      md-page="$ctrl.query.page"
-      md-total="{{$ctrl.items.length}}"
-      md-page-select
-    >
-    </md-table-pagination>
+    </div>
   </md-card>
 </div>
